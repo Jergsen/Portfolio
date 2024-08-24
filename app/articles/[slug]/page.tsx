@@ -4,19 +4,23 @@ import { notFound } from 'next/navigation'
 
 export async function generateStaticParams() {
   const articles = getAllArticles()
+  console.log('Generated static params:', articles.map(article => ({ slug: article.slug })))
   return articles.map((article) => ({
     slug: article.slug,
   }))
 }
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
+  console.log('Attempting to render article with slug:', params.slug)
   try {
     const article = await getArticleBySlug(params.slug)
     
     if (!article) {
+      console.log('Article not found for slug:', params.slug)
       notFound()
     }
 
+    console.log('Article found:', article.frontmatter.title)
     const { code, frontmatter } = article
     const Component = getMDXComponent(code)
 

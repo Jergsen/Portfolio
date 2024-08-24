@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-24">
@@ -7,14 +6,12 @@ export default function Home() {
         <h1 className="text-4xl font-bold mb-4">AI-Focused Freelance Developer</h1>
         <p className="text-xl text-gray-600">Turning AI concepts into reality through code</p>
       </header>
-
       <section className="w-full max-w-4xl mb-12">
         <h2 className="text-2xl font-semibold mb-4">About Me</h2>
         <p className="text-lg text-gray-700">
-          I'm a passionate freelance developer specializing in AI-driven solutions. With a deep understanding of machine learning algorithms and software development, I create innovative applications that leverage the power of artificial intelligence.
+          I&apos;m a passionate freelance developer specializing in AI-driven solutions. With a deep understanding of machine learning algorithms and software development, I create innovative applications that leverage the power of artificial intelligence.
         </p>
       </section>
-
       <section className="w-full max-w-4xl mb-12">
         <h2 className="text-2xl font-semibold mb-4">Skills</h2>
         <ul className="grid grid-cols-2 gap-4">
@@ -28,7 +25,6 @@ export default function Home() {
           <li className="bg-blue-100 p-3 rounded">Cloud Computing</li>
         </ul>
       </section>
-
       <section className="w-full max-w-4xl mb-12">
         <h2 className="text-2xl font-semibold mb-4">Featured Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -50,11 +46,10 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="w-full max-w-4xl">
         <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
         <p className="text-lg text-gray-700 mb-4">
-          Interested in collaborating on an AI project? Let's connect and bring your ideas to life!
+          Interested in collaborating on an AI project? Let&apos;s connect and bring your ideas to life!
         </p>
         <a href="mailto:contact@aifreelancer.com" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
           Contact Me

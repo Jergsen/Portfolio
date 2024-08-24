@@ -1,5 +1,5 @@
 import { getMDXComponent } from 'mdx-bundler/client'
-import { getArticleBySlug, getAllArticles } from '../../../lib/mdx'
+import { getArticleBySlug, getAllArticles, Frontmatter } from '../../../lib/mdx'
 
 export async function generateStaticParams() {
   const articles = getAllArticles()

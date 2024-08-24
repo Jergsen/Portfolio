@@ -5,7 +5,16 @@ import { bundleMDX } from 'mdx-bundler'
 
 export const ARTICLES_PATH = path.join(process.cwd(), 'articles')
 
-export async function getArticleBySlug(slug: string) {
+export interface Frontmatter {
+  title: string;
+  date: string;
+  author?: string;
+  tags?: string[];
+  slug: string;
+  [key: string]: any;
+}
+
+export async function getArticleBySlug(slug: string): Promise<{ code: string; frontmatter: Frontmatter }> {
   const articleFilePath = path.join(ARTICLES_PATH, `${slug}.mdx`)
   const source = fs.readFileSync(articleFilePath, 'utf8')
   
@@ -17,26 +26,19 @@ export async function getArticleBySlug(slug: string) {
   return {
     code,
     frontmatter: {
-      slug,
-      ...(frontmatter as { [key: string]: any }),
+      ...(frontmatter as Frontmatter),
     },
   }
 }
 
-interface ArticleMetadata {
-  [key: string]: any;
-  date: string;
-  slug: string;
-}
-
-export function getAllArticles(): ArticleMetadata[] {
+export function getAllArticles(): Frontmatter[] {
   const articles = fs.readdirSync(ARTICLES_PATH)
     .filter((path) => /\.mdx?$/.test(path))
     .map((fileName) => {
       const source = fs.readFileSync(path.join(ARTICLES_PATH, fileName), 'utf8')
       const { data } = matter(source)
       return {
-        ...(data as { [key: string]: any }),
+        ...(data as Frontmatter),
         slug: fileName.replace(/\.mdx?$/, ''),
       }
     })

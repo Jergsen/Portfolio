@@ -1,44 +1,38 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import { notFound } from 'next/navigation'
-import ReactMarkdown from 'react-markdown'
-import ArticleLayout from './layout'
-
-interface ArticleProps {
-  params: {
-    slug: string
-  }
-}
+import { getMDXComponent } from 'mdx-bundler/client'
+import { getArticleBySlug, getAllArticles } from '../../../lib/mdx'
 
 export async function generateStaticParams() {
-  const articlesDirectory = path.join(process.cwd(), 'articles')
-  const fileNames = fs.readdirSync(articlesDirectory)
-
-  return fileNames.map((fileName) => ({
-    slug: fileName.replace(/\.md$/, ''),
+  const articles = getAllArticles()
+  return articles.map((article) => ({
+    slug: article.slug,
   }))
 }
 
-export default async function ArticlePage({ params }: ArticleProps) {
-  const articlesDirectory = path.join(process.cwd(), 'articles')
-  const fullPath = path.join(articlesDirectory, `${params.slug}.md`)
-  
-  try {
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const { data, content } = matter(fileContents)
+export default async function ArticlePage({ params }: { params: { slug: string } }) {
+  const { code, frontmatter } = await getArticleBySlug(params.slug)
+  const Component = getMDXComponent(code)
 
-    return (
-      <ArticleLayout
-        title={data.title}
-        date={data.date}
-        author={data.author}
-        tags={data.tags}
-      >
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </ArticleLayout>
-    )
-  } catch (error) {
-    notFound()
-  }
+  return (
+    <article>
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-2">{frontmatter.title}</h1>
+        <div className="text-gray-600 mb-2">
+          {new Date(frontmatter.date).toLocaleDateString()} 
+          {frontmatter.author && ` by ${frontmatter.author}`}
+        </div>
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {frontmatter.tags.map((tag: string) => (
+              <span key={tag} className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+      <div className="prose lg:prose-xl">
+        <Component />
+      </div>
+    </article>
+  )
 }

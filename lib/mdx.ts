@@ -3,13 +3,12 @@ import path from 'path'
 import matter from 'gray-matter'
 import { bundleMDX } from 'mdx-bundler'
 
-
 export const ARTICLES_PATH = path.join(process.cwd(), 'articles')
 
 export async function getArticleBySlug(slug: string) {
   const articleFilePath = path.join(ARTICLES_PATH, `${slug}.mdx`)
   const source = fs.readFileSync(articleFilePath, 'utf8')
-
+  
   const { code, frontmatter } = await bundleMDX({
     source,
     cwd: ARTICLES_PATH,
@@ -19,20 +18,25 @@ export async function getArticleBySlug(slug: string) {
     code,
     frontmatter: {
       slug,
-      ...frontmatter,
+      ...(frontmatter as { [key: string]: any }),
     },
   }
 }
 
-export function getAllArticles() {
+interface ArticleMetadata {
+  [key: string]: any;
+  date: string;
+  slug: string;
+}
+
+export function getAllArticles(): ArticleMetadata[] {
   const articles = fs.readdirSync(ARTICLES_PATH)
     .filter((path) => /\.mdx?$/.test(path))
     .map((fileName) => {
       const source = fs.readFileSync(path.join(ARTICLES_PATH, fileName), 'utf8')
       const { data } = matter(source)
-
       return {
-        ...data,
+        ...(data as { [key: string]: any }),
         slug: fileName.replace(/\.mdx?$/, ''),
       }
     })

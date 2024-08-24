@@ -1,0 +1,50 @@
+/* Custom styles for articles */
+.article-content h2 {
+    font-size: 1.8em;
+    color: #2c3e50;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  .article-content p {
+    margin-bottom: 1.2em;
+    line-height: 1.6;
+  }
+  
+  .article-content blockquote {
+    border-left: 4px solid #3498db;
+    padding-left: 1em;
+    margin-left: 0;
+    font-style: italic;
+    color: #7f8c8d;
+  }
+  
+  .article-content code {
+    background-color: #f7f7f7;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+  }
+  
+  .article-content pre {
+    background-color: #f7f7f7;
+    padding: 1em;
+    overflow-x: auto;
+    border-radius: 5px;
+  }
+  
+  .article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+  }
+  
+  .article-content a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .article-content a:hover {
+    text-decoration: underline;
+  }
